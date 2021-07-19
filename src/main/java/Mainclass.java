@@ -17,36 +17,24 @@ public class Mainclass {
 
 public static void main(String[] args) throws Exception {		
 	
-	    int nth = (int) Float.parseFloat( args[0] ); // n thread
-	    int sensiLabel = (int) Float.parseFloat( args[1] ); // if sensitivity analysis
-	     
-	    double percentData = Double.parseDouble( args[2] ); // percentage data chosen
+	int nth = (int) Float.parseFloat( args[0] ); // n thread
+	int sensiLabel = (int) Float.parseFloat( args[1] ); // if sensitivity analysis   
+	double percentData = Double.parseDouble( args[2] ); // percentage data chosen   
+	int AzoneLabel = (int) Double.parseDouble( args[3] ); // if chosen A zone buildings  
+	int ReplicateN = (int) Double.parseDouble( args[4] ); // total simulation times
 	    
-	    int AzoneLabel = (int) Double.parseDouble( args[3] ); // if chosen A zone buildings
-	    
-	    int ReplicateN = (int) Double.parseDouble( args[4] ); // total simulation times
-	    
-	    String input  = args[5] ;
-		String output = args[6];
+	String input  = args[5] ; //input directory path
+	String output = args[6];  //output directory path
+
+	System.out.println("Input arguments " + args[6]  );
 		
-	//		String input  = new File( System.getProperty("user.dir"), "src/main/resources" ).getPath() ;
-	//		String input  = System.getProperty("input.file");
-	//		String output = System.getProperty("output.file");
-	//		String output = new File(System.getProperty("user.dir"), "src/main/resources/results_MonteCarlo" ).getPath() ;  
-		System.out.println("Input arguments " + args[6]  );
-	//		System.out.println(output);
-		
-	//	String input  ="/home/yuhan/Desktop/MiamiInputDatasets/"  ;
-	//	String output ="/home/yuhan/Desktop/Outputs2/"  ;
 	
-//		String input  = "C:/Users/zanwa/workspace-Neon/MiamiDadeAdaptation/src/main/resources" ;
-//		String output = "C:/Users/zanwa/workspace-Neon/MiamiDadeAdaptation/src/main/resources/results_MonteCarlo";
+//		String input  = "MiamiFloodAdaptation/src/main/resources" ;
+//		String output = "MiamiFloodAdaptation/src/main/resources/results_MonteCarlo";
 		
 		
-		String file1 = input;
-//		IOUtils.toString(new FileInputStream(FileUtils.getFile(input)) , StandardCharsets.UTF_8);
-		String file2 = output;
-//		IOUtils.toString(new FileInputStream(FileUtils.getFile(output)) , StandardCharsets.UTF_8);
+	String file1 = input;
+	String file2 = output;
 		
         File datafile1 = new File(file1, "MiamiParcels2.csv" ) ;
         String Residpth = datafile1.getPath()  ;  		
@@ -61,16 +49,16 @@ public static void main(String[] args) throws Exception {
         System.out.println( simHHpth ); 
         
         int simYrs 			= 100;
-		int deltaT 			= 10;
-		double DiscountRate = 0.04;	
-		int TotalN 			= ReplicateN;
-		ArrayList<Properties> residential 	= InitClass.readProperty(Residpth, percentData, AzoneLabel);
+	int deltaT 			= 10;
+	double DiscountRate = 0.04;	
+	int TotalN 			= ReplicateN;
+	ArrayList<Properties> residential 	= InitClass.readProperty(Residpth, percentData, AzoneLabel);
 		
-		int nthread = nth;
-		int ifSensitivity	= sensiLabel;
-		long elapsedTime;
-		long starttime ;
-		long endtime ; 
+	int nthread = nth;
+	int ifSensitivity	= sensiLabel;
+	long elapsedTime;
+	long starttime ;
+	long endtime ; 
         double[][] Return_periods 	= new double[TotalN][simYrs];
 		for( int i = 0; i < TotalN; i++ ){
 			Random rand = new Random(); 
@@ -79,8 +67,8 @@ public static void main(String[] args) throws Exception {
 			}
 		}
 		
-		double[][] gev_paras 	= new double[TotalN][simYrs*3];
-		for( int i1 = 0; i1 < TotalN; i1++ ){
+	double[][] gev_paras 	= new double[TotalN][simYrs*3];
+	for( int i1 = 0; i1 < TotalN; i1++ ){
 			for( int i2 = 0; i2 < simYrs; i2++ ){
 				Random rand = new Random(); 
 				gev_paras[i1][i2*3]  	= rand.nextGaussian() * 0.125   + 0.600 ;
