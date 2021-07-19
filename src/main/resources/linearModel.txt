@@ -1,0 +1,23 @@
+Call:
+lm(formula = willpayR ~ Type + HouseArea + RandHV + Income, data = data1)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.033808 -0.006967 -0.002421  0.002170  0.067746 
+
+Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)    
+(Intercept)        3.102e-02  3.648e-03   8.503 8.14e-15 ***
+TypeSingle-family -4.566e-03  2.734e-03  -1.670  0.09665 .  
+HouseArea          2.989e-06  8.889e-07   3.362  0.00095 ***
+RandHV             7.153e-09  3.246e-09   2.203  0.02888 *  
+Income            -3.165e-03  3.963e-04  -7.987 1.81e-13 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.0141 on 174 degrees of freedom
+Multiple R-squared:  0.2982,    Adjusted R-squared:  0.2821 
+F-statistic: 18.49 on 4 and 174 DF,  p-value: 1.118e-12
+
+
+1.760e-02 - 4.822e-03 * TypeSingle-family + 2.685e-06*HouseArea + -5.521e-08 * RandIncome
