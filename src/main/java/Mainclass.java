@@ -83,7 +83,7 @@ public static void main(String[] args) throws Exception {
 	System.out.println("Number of thread "+ nthread +" and chunksize "+  chunksize);	
 		
 		
-	/** Scenarios 
+	/**Sea-level rise Scenarios 
 	 * 	0.2: 0.000003   
 	 * 	0.5: 0.000033
 	 *  1.2: 0.000103   
