@@ -69,97 +69,95 @@ public static void main(String[] args) throws Exception {
 		
 	double[][] gev_paras 	= new double[TotalN][simYrs*3];
 	for( int i1 = 0; i1 < TotalN; i1++ ){
-			for( int i2 = 0; i2 < simYrs; i2++ ){
-				Random rand = new Random(); 
-				gev_paras[i1][i2*3]  	= rand.nextGaussian() * 0.125   + 0.600 ;
-				gev_paras[i1][i2*3+1]   = rand.nextGaussian() * 0.176   + 0.9672 ;
-				gev_paras[i1][i2*3+2]   = rand.nextGaussian() * 0.181   + 0.140 ;
-			
-			}
+		for( int i2 = 0; i2 < simYrs; i2++ ){
+			Random rand = new Random(); 
+			gev_paras[i1][i2*3]  	= rand.nextGaussian() * 0.125   + 0.600 ;
+			gev_paras[i1][i2*3+1]   = rand.nextGaussian() * 0.176   + 0.9672 ;
+			gev_paras[i1][i2*3+2]   = rand.nextGaussian() * 0.181   + 0.140 ;
 		}
+	}
 		
 		
-		int totalPropertyN = residential.size();
-		int chunksize = (int) Math.ceil( totalPropertyN / nthread );
-		System.out.println("Number of thread "+ nthread +" and chunksize "+  chunksize);	
+	int totalPropertyN = residential.size();
+	int chunksize = (int) Math.ceil( totalPropertyN / nthread );
+	System.out.println("Number of thread "+ nthread +" and chunksize "+  chunksize);	
 		
 		
-		/** Scenarios 
-		 * 	0.2: 0.000003   
-		 * 	0.5: 0.000033
-		 *  1.2: 0.000103   
-		 *  2  : 0.000183
-		 **/
-		int endSize = chunksize;
-		starttime = System.nanoTime() ;
-		HashMap<Integer, ArrayList<Double> > paras2 = Properties.readAlphaParas( AlphaPth );
-		ArrayList<Properties> resultArrayList = new ArrayList<Properties>();
+	/** Scenarios 
+	 * 	0.2: 0.000003   
+	 * 	0.5: 0.000033
+	 *  1.2: 0.000103   
+	 *  2  : 0.000183
+	**/
+	int endSize = chunksize;
+	starttime = System.nanoTime() ;
+	HashMap<Integer, ArrayList<Double> > paras2 = Properties.readAlphaParas( AlphaPth );
+	ArrayList<Properties> resultArrayList = new ArrayList<Properties>();
 		
-		int outputN = 10;
-		double[][][] ResultInfo = new double[outputN][TotalN][simYrs] ;
+	int outputN = 10;
+	double[][][] ResultInfo = new double[outputN][TotalN][simYrs] ;
 //		String[] tails_str 	= { "_SLR02", "_SLR05", "_SLR12", "_SLR20"}; // "_SLR05", "_SLR12", "_SLR20"
 		/** Change SLR scenario for sensitivity analysis**/
-		String[] tailis_adaptsce  	= 	{ "1", "2", "3", "4"};
-		String[] tailis_slr  	= 	{ "_SLR02.csv", "_SLR05.csv", "_SLR12.csv", "_SLR20.csv" };
-//		double[] slrsces   	=  {0.000003, 0.000033, 0.000103, 0.000183};
+	String[] tailis_adaptsce  	= 	{ "1", "2", "3", "4"};
+	String[] tailis_slr  	= 	{ "_SLR02.csv", "_SLR05.csv", "_SLR12.csv", "_SLR20.csv" };
+//	double[] slrsces   	=  {0.000003, 0.000033, 0.000103, 0.000183};
 			
-		/** Change SLR scenario for sensitivity analysis**/		
-		for(  int atgb = 0; atgb < tailis_slr.length; atgb++ ) {
-			String tail0i  	= 	tailis_slr[atgb];	
-			for( int k0 = 0; k0 < tailis_adaptsce.length ; k0++ ){
-				String taili  	 = 	tailis_adaptsce[ k0 ] + "_"+ String.valueOf(ifSensitivity) + tail0i ;
-				String hdatafile = file2 + "/BidParcels" + taili ;			
-				CsvFileWriter.writeBidPrice(residential, hdatafile, false);	
-				String hbidPth0  = file2 + "/Uncertainty_CB/PropertyValue"+ taili;
-				CsvFileWriter.writeEvacuation(ResultInfo[0], hbidPth0, false);	
-				String hbidPth1  = file2 + "/Uncertainty_CB/EAD0"+ taili;
-				CsvFileWriter.writeEvacuation(ResultInfo[1], hbidPth1, false);
-				
-				String hbidPth2  = file2 + "/Uncertainty_CB/EAD1"+ taili;
-				CsvFileWriter.writeEvacuation(ResultInfo[2], hbidPth2, false);
-				String hbidPth3  = file2 + "/Uncertainty_CB/FloodDamage0"+ taili;
-				CsvFileWriter.writeEvacuation(ResultInfo[3], hbidPth3, false);
-				String hbidPth4  = file2 + "/Uncertainty_CB/FloodDamage1"+ taili;
-				CsvFileWriter.writeEvacuation(ResultInfo[4], hbidPth4, false);	
-				String hbidPth5  = file2 + "/Uncertainty_CB/AdaptationPay"+ taili;
-				CsvFileWriter.writeEvacuation(ResultInfo[5], hbidPth5, false);	
-				
-				String hcsvFile6 = file2 + "/Uncertainty_CB/Households_" + taili;
-				CsvFileWriter.writeBidPrice2(residential, hcsvFile6, false) ;	
-				String hbidPth62 = file2 + "/Uncertainty_CB/DiscountRate"+ taili;
-				CsvFileWriter.writeEvacuation(ResultInfo[6], hbidPth62, false);	
-				String hbidPth7 = file2 + "/Uncertainty_CB/ElevationPay"+ taili;
-				CsvFileWriter.writeEvacuation(ResultInfo[7], hbidPth7, false);	
-				String hbidPth8 = file2 + "/Uncertainty_CB/DryproofPay"+ taili;
-				CsvFileWriter.writeEvacuation(ResultInfo[8], hbidPth8, false);	
-				String hbidPth9 = file2 + "/Uncertainty_CB/WetproofPay"+ taili;
-				CsvFileWriter.writeEvacuation(ResultInfo[9], hbidPth9, false);	
+	/** Change SLR scenario for sensitivity analysis**/		
+	for(  int atgb = 0; atgb < tailis_slr.length; atgb++ ) {
+		String tail0i  	= 	tailis_slr[atgb];	
+		for( int k0 = 0; k0 < tailis_adaptsce.length ; k0++ ){
+			String taili  	 = 	tailis_adaptsce[ k0 ] + "_"+ String.valueOf(ifSensitivity) + tail0i ;
+			String hdatafile = file2 + "/BidParcels" + taili ;			
+			CsvFileWriter.writeBidPrice(residential, hdatafile, false);	
+			String hbidPth0  = file2 + "/Uncertainty_CB/PropertyValue"+ taili;
+			CsvFileWriter.writeEvacuation(ResultInfo[0], hbidPth0, false);	
+			String hbidPth1  = file2 + "/Uncertainty_CB/EAD0"+ taili;
+			CsvFileWriter.writeEvacuation(ResultInfo[1], hbidPth1, false);
 			
-				int countSize = 0;
+			String hbidPth2  = file2 + "/Uncertainty_CB/EAD1"+ taili;
+			CsvFileWriter.writeEvacuation(ResultInfo[2], hbidPth2, false);
+			String hbidPth3  = file2 + "/Uncertainty_CB/FloodDamage0"+ taili;
+			CsvFileWriter.writeEvacuation(ResultInfo[3], hbidPth3, false);
+			String hbidPth4  = file2 + "/Uncertainty_CB/FloodDamage1"+ taili;
+			CsvFileWriter.writeEvacuation(ResultInfo[4], hbidPth4, false);	
+			String hbidPth5  = file2 + "/Uncertainty_CB/AdaptationPay"+ taili;
+			CsvFileWriter.writeEvacuation(ResultInfo[5], hbidPth5, false);	
+				
+			String hcsvFile6 = file2 + "/Uncertainty_CB/Households_" + taili;
+			CsvFileWriter.writeBidPrice2(residential, hcsvFile6, false) ;	
+			String hbidPth62 = file2 + "/Uncertainty_CB/DiscountRate"+ taili;
+			CsvFileWriter.writeEvacuation(ResultInfo[6], hbidPth62, false);	
+			String hbidPth7 = file2 + "/Uncertainty_CB/ElevationPay"+ taili;
+			CsvFileWriter.writeEvacuation(ResultInfo[7], hbidPth7, false);	
+			String hbidPth8 = file2 + "/Uncertainty_CB/DryproofPay"+ taili;
+			CsvFileWriter.writeEvacuation(ResultInfo[8], hbidPth8, false);	
+			String hbidPth9 = file2 + "/Uncertainty_CB/WetproofPay"+ taili;
+			CsvFileWriter.writeEvacuation(ResultInfo[9], hbidPth9, false);	
+			
+			int countSize = 0;
 	//			ExecutorService executor = Executors.newCachedThreadPool();
-				ExecutorService executor = Executors.newFixedThreadPool(nthread);
+			ExecutorService executor = Executors.newFixedThreadPool(nthread);
 	//			List<Future<double[][][][]>> futures = new ArrayList<>();
 			
 			
-				CopyOnWriteArrayList< Future<double[][][]> > futures2  = new CopyOnWriteArrayList<>();
+			CopyOnWriteArrayList< Future<double[][][]> > futures2  = new CopyOnWriteArrayList<>();
 			
-				for(int threadi = 0; threadi< nthread; threadi++) {
-					if( countSize < totalPropertyN) {
-						endSize = countSize+chunksize;
-					}else {
-						endSize = totalPropertyN;
-					}
-					ArrayList<Properties> residential_subset = new ArrayList<Properties>( residential.subList(countSize, countSize+chunksize) );
-					InitClass.CreateHousehold(residential_subset, paras2, 0);
-					System.out.println("Adaptation Scenario"+ (k0+1)  +" is starting the thread " + threadi );	
+			for(int threadi = 0; threadi< nthread; threadi++) {
+				if( countSize < totalPropertyN) {
+					endSize = countSize+chunksize;
+				}else {
+					endSize = totalPropertyN;
+				}
+				ArrayList<Properties> residential_subset = new ArrayList<Properties>( residential.subList(countSize, countSize+chunksize) );
+				InitClass.CreateHousehold(residential_subset, paras2, 0);
+				System.out.println("Adaptation Scenario"+ (k0+1)  +" is starting the thread " + threadi );	
+				
+				double[] para1 = {deltaT, atgb, outputN, simYrs, TotalN, DiscountRate, threadi, ifSensitivity, k0};
+				String[] para2 = {file2, AlphaPth};
 					
-					
-					double[] para1 = {deltaT, atgb, outputN, simYrs, TotalN, DiscountRate, threadi, ifSensitivity, k0};
-					String[] para2 = {file2, AlphaPth};
-					
-					SimulationMultiThread taski = new SimulationMultiThread( residential_subset, Return_periods, gev_paras, para1, para2);
-					Future<double[][][]> result = executor.submit(taski);     
-					futures2.add(result);
+				SimulationMultiThread taski = new SimulationMultiThread( residential_subset, Return_periods, gev_paras, para1, para2);
+				Future<double[][][]> result = executor.submit(taski);     
+				futures2.add(result);
 		        
 	//	        while (!result.isDone()) {
 	//	            System.out.println(
@@ -167,7 +165,7 @@ public static void main(String[] args) throws Exception {
 	//	            );
 	//	            Thread.sleep(300);
 	//	        }
-					countSize = countSize + chunksize;
+				countSize = countSize + chunksize;
 			}
 			executor.shutdown();
 			try {
@@ -203,7 +201,7 @@ public static void main(String[] args) throws Exception {
 				}catch(Exception e) {
 					e.printStackTrace();
 				}
-		    }
+		    	}
 	
 			String obidPth0 = file2 + "/Uncertainty_CB/PropertyValue"+ taili;
 			CsvFileWriter.writeEvacuation(ResultInfo2[0], obidPth0, true);	
@@ -243,8 +241,6 @@ public static void main(String[] args) throws Exception {
 			System.out.println("Finish futureChange2" );
 			
 			}
-		
-	}
-	
+		}
 	}
 }
