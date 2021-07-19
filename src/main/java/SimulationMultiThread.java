@@ -55,21 +55,13 @@ public class SimulationMultiThread implements Callable< double[][][] > {
 		String tail0i  = 	tailis_slr[ slri ] ;
 		double SLRb    =    slrsces[ slri ] ;
 //		Government gov1 = new Government();
-	    scei = scenarios[ k0 ] ;
-	    String taili  	        = 	tailis_adaptsce[ k0 ] + tail0i ;
-//	    double[] parayi = { simYrs, DiscountRate, SLRb, deltaT, 0.391, 0.140, 0.105  } ;
-//			if( scei == 2  ) {
-//				InitClass.AdaptDecision2(residential, parayi, gov1) ;
-//			}else if( scei == 3 ) {
-//				InitClass.AdaptDecision3(residential, parayi, gov1) ;
-//			}else if( scei == 4 ) {
-//				InitClass.AdaptDecision4(residential, parayi, gov1) ;
-//			}else {
-//				InitClass.AdaptDecision( residential, parayi, gov1) ;
-//			}
-			/* write adaptation file */
-//			System.out.println("Thread " + threadk +" Adaptation execution time in minutes "+ elapsedTime/1000000000.0/60.0 );	
-//			starttime = System.nanoTime() ;
+	    	scei = scenarios[ k0 ] ;
+	   	String taili  	        = 	tailis_adaptsce[ k0 ] + tail0i ;
+//	    	double[] parayi = { simYrs, DiscountRate, SLRb, deltaT, 0.391, 0.140, 0.105  } ;
+
+	//* write adaptation file */
+//		System.out.println("Thread " + threadk +" Adaptation execution time in minutes "+ elapsedTime/1000000000.0/60.0 );	
+//		starttime = System.nanoTime() ;
 		double[] input_doubles 	= { SLRb, DiscountRate, 49, simYrs, TotalN, scei, ifSensitivity, deltaT};
 		ResultInfo 			= InitClass.futureChange2( residential, Return_periods, gev_paras, paras2, input_doubles, taili); 
 			
