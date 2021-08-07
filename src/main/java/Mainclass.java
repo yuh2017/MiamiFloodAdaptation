@@ -29,8 +29,8 @@ public static void main(String[] args) throws Exception {
 	System.out.println("Input arguments " + args[6]  );
 		
 	
-//		String input  = "MiamiFloodAdaptation/src/main/resources" ;
-//		String output = "MiamiFloodAdaptation/src/main/resources/results_MonteCarlo";
+//	String input  = "MiamiFloodAdaptation/src/main/resources" ;
+//	String output = "MiamiFloodAdaptation/src/main/resources/results_MonteCarlo";
 		
 		
 	String file1 = input;
@@ -83,11 +83,11 @@ public static void main(String[] args) throws Exception {
 	System.out.println("Number of thread "+ nthread +" and chunksize "+  chunksize);	
 		
 		
-	/**Sea-level rise Scenarios 
+	/**Sea-level rise Scenarios and parameters
 	 * 	0.2: 0.000003   
 	 * 	0.5: 0.000033
-	 *  1.2: 0.000103   
-	 *  2  : 0.000183
+	 *  	1.2: 0.000103   
+	 *  	2  : 0.000183
 	**/
 	int endSize = chunksize;
 	starttime = System.nanoTime() ;
@@ -96,11 +96,11 @@ public static void main(String[] args) throws Exception {
 		
 	int outputN = 10;
 	double[][][] ResultInfo = new double[outputN][TotalN][simYrs] ;
-//		String[] tails_str 	= { "_SLR02", "_SLR05", "_SLR12", "_SLR20"}; // "_SLR05", "_SLR12", "_SLR20"
-		/** Change SLR scenario for sensitivity analysis**/
+//	String[] tails_str 	= { "_SLR02", "_SLR05", "_SLR12", "_SLR20"}; // "_SLR05", "_SLR12", "_SLR20"
+	/** Change SLR scenario for sensitivity analysis**/
 	String[] tailis_adaptsce  	= 	{ "1", "2", "3", "4"};
-	String[] tailis_slr  	= 	{ "_SLR02.csv", "_SLR05.csv", "_SLR12.csv", "_SLR20.csv" };
-//	double[] slrsces   	=  {0.000003, 0.000033, 0.000103, 0.000183};
+	String[] tailis_slr  		= 	{ "_SLR02.csv", "_SLR05.csv", "_SLR12.csv", "_SLR20.csv" };
+//	double[] slrsces   		=  {0.000003, 0.000033, 0.000103, 0.000183};
 			
 	/** Change SLR scenario for sensitivity analysis**/		
 	for(  int atgb = 0; atgb < tailis_slr.length; atgb++ ) {
@@ -180,7 +180,6 @@ public static void main(String[] args) throws Exception {
 			Iterator< Future<double[][][]> > iterator0 = futures2.iterator();
 			Lock lock = new ReentrantLock();
 			while( iterator0.hasNext() ) {
-	//			System.out.println("Return thread return 3D arraylist Futures");
 				Future<double[][][]> f = iterator0.next();
 				try {
 					while( true ) {
@@ -226,13 +225,14 @@ public static void main(String[] args) throws Exception {
 			String obidPth9 = file2 + "/Uncertainty_CB/WetproofPay"+ taili;
 			CsvFileWriter.writeEvacuation(ResultInfo2[9], obidPth9, true);	
 				
-			//	System.out.println("Finish futureChange2" );
-				/* write adaptation file */
+			//System.out.println("Finish futureChange2" );
+			/* write adaptation file */
 			String datafile  		= file2 + "/BidParcels" + taili ;			
-		//		System.out.println( outputFile ); 
-				/* write adaptation file */
+		//	System.out.println( outputFile ); 
+			
+			/* write building file */
 			CsvFileWriter.writeBidPrice( residential, datafile, true);	
-		//		System.out.println("Finish adaptation planning" );
+		//	System.out.println("Finish adaptation planning" );
 			String ocsvFile6 		= file2 + "/Uncertainty_CB/Households_" + taili;
 			CsvFileWriter.writeBidPrice2( residential, ocsvFile6, true)  ;
 			endtime = System.nanoTime() ;
