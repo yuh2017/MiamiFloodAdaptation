@@ -1757,25 +1757,6 @@ public class InitClass {
 		return ResultInfo;
 	}
 	
-//	public static ArrayList<Properties> BidPrice( ArrayList<Properties> residentialRisk, 
-//													ArrayList<Agents> households, 
-//													ArrayList<String> CensusList){
-//		int count = 0;
-//		ArrayList<Properties> ResidBidPrice = new ArrayList<Properties>();
-//		Iterator<String> iter = CensusList.iterator();
-//		while(iter.hasNext()){
-//			String censusi = iter.next();
-//			ArrayList<Properties> censusProperty = residentialCensus(residentialRisk, censusi);
-//			ArrayList<Agents> censusHouseholds = HHCensus(households,  censusi);
-//			ArrayList<Properties> censusBids = residBidPrice2(censusProperty, censusHouseholds);
-//			ResidBidPrice.addAll(censusBids);
-//			count ++;
-//			if(count % 50 == 0){
-//				System.out.println("Processed residential " + count);	
-//				}
-//			}
-//		return ResidBidPrice;
-//	}
 	
 	public static void CreateHousehold( List<Properties> residentBuildings, 
 										HashMap<Integer, ArrayList<Double> > paras, int initi){
