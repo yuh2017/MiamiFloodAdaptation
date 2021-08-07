@@ -28,7 +28,8 @@ public class Government {
 	
 	public static double TotalSeaWallCosts(double length) {
 		double damage;
-		damage = 3280840 * length / 1000; 
+		double UnitSeawallCost = 3280840; // dollars per miles
+		damage =  UnitSeawallCost * length / 1000; 
 		return damage;
 	}
 	
