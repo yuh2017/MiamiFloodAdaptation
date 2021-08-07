@@ -35,7 +35,7 @@ public class Government {
 	
 	
 	
-	public void AdaptDecision4( ArrayList<Properties> ResidBidPrice ) throws IOException{
+	public void AdaptDecision4Test( ArrayList<Properties> ResidBidPrice ) throws IOException{
 		
 		
 		double[] PubSeawallHeights 		= { 0.0, 2.0, 4.0, 6.0, 8.0, 10.0 };
@@ -88,7 +88,7 @@ public class Government {
 	
 	
 	
-public void AdaptDecision3( ArrayList<Properties> ResidBidPrice ) throws IOException{
+	public void AdaptDecision3Test( ArrayList<Properties> ResidBidPrice ) throws IOException{
 		
 		double[] PubSeawallHeights 		= { 0.0, 2.0, 4.0, 6.0, 8.0, 10.0 };
 		double[] PubSeawallCBA 			= { 0.0, 0.0, 0.0, 0.0 , 0.0 , 0.0};
