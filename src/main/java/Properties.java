@@ -12,21 +12,6 @@ import java.util.Map;
 
 public class Properties {
 	public static double[] probs  = {0.1, 0.04, 0.02, 0.01, 0.005};	
-	
-
-	 public final static double xi1 = 0.04 , mu1 = 2.38 , beta1 = 0.675 ; // unit feet 
-	 public final static double xi2 = 0.111 , mu2 = 4.21 , beta2 = 0.591 ; // unit feet
-	 
-	 public final static double xi3 = 0.115 , mu3 = 3.09 , beta3 = 0.647; // unit feet 
-	 public final static double xi4 = 0.0964 , mu4 = 1.475 , beta4 = 0.607 ; // unit feet 
-	 public final static double xi5 = 0.0735 , mu5 = 0.989 , beta5 = 0.593 ; // unit feet
-	 
-	 public final static double xi6 = 0.207 , mu6 = 2.69, beta6 = 0.525 ; 
-	 public final static double xi7 =0.073 , mu7 = 3.67 , beta7 = 0.619 ;
-	  
-	 public final static double xi8 = 0.0736 , mu8 = 2.077, beta8 = 0.639 ; 
-	 public final static double xi9 = 0.084 , mu9 = 1.897 , beta9 = 0.61 ; 
-	 public final static double xi10 = 0.053 , mu10 = 5.044 , beta10 = 0.668 ;
 	 
 	public double xi0, xise0, mu0, muse0, beta0, betase0; // unit feet
 //	public double xi, mu, beta;
@@ -84,12 +69,6 @@ public class Properties {
 	
 	public Properties() {
 		//System.out.println("create empty house property");
-//		this.xi0 			= 0.140 ; 
-//		this.xise0 			= 0.181 ;
-//		this.mu0 			= 0.391  ; 
-//		this.muse0 			= 0.033  ;
-//		this.beta0 			= 0.105 ; 
-//		this.betase0 		= 0.025 ;
 		
 		
 		this.xi0 			= 0.0688 ; 
@@ -118,12 +97,6 @@ public class Properties {
 		
 		
 		
-//		this.xi0 			= 0.140 ; 
-//		this.xise0 			= 0.181 ;	
-//		this.mu0 			= 0.391  ; 
-//		this.muse0 			= 0.033  ;	
-//		this.beta0 			= 0.105 ; 
-//		this.betase0 		= 0.025 ;
 		
 		
 		this.xi0 			= 0.140 ; 
@@ -133,48 +106,6 @@ public class Properties {
 		this.beta0 			= 0.600 ; 
 		this.betase0 		= 0.125 ;
 		
-		
-//		if(this.CateLabel == 0){
-//			this.xi0 = xi1; 
-//			this.mu0 = mu1; 
-//			this.beta0 = beta1;
-//		}else if( this.CateLabel == 1){
-//			this.xi0 = xi2; 
-//			this.mu0 = mu2; 
-//			this.beta0 = beta2;
-//		}else if( this.CateLabel == 2){
-//			this.xi0 = xi3; 
-//			this.mu0 = mu3; 
-//			this.beta0 = beta3;
-//		}else if( this.CateLabel == 3){
-//			this.xi0 = xi4; 
-//			this.mu0 = mu4; 
-//			this.beta0 = beta4;
-//		}else if( this.CateLabel == 4){
-//			this.xi0 = xi5; 
-//			this.mu0 = mu5; 
-//			this.beta0 = beta5;
-//		}else if( this.CateLabel == 5){
-//			this.xi0 = xi6; 
-//			this.mu0 = mu6; 
-//			this.beta0 = beta6;
-//		}else if( this.CateLabel == 6){
-//			this.xi0 = xi7; 
-//			this.mu0 = mu7; 
-//			this.beta0 = beta7;
-//		}else if( this.CateLabel == 7){
-//			this.xi0 = xi8; 
-//			this.mu0 = mu8; 
-//			this.beta0 = beta8;
-//		}else if( this.CateLabel == 8){
-//			this.xi0 = xi9; 
-//			this.mu0 = mu9; 
-//			this.beta0 = beta9;
-//		}else{
-//			this.xi0 = xi10; 
-//			this.mu0 = mu10; 
-//			this.beta0 = beta10;
-//		}
 		
 		
 		
@@ -190,7 +121,6 @@ public class Properties {
 		this.cate4 = (mu0 + ( (Math.pow( 0.01 ,  -1*xi0) - 1)*beta0 / xi0 ) ) / 0.3048 ; 
 		this.cate5 = (mu0 + ( (Math.pow( 0.005,  -1*xi0) - 1)*beta0 / xi0 ) ) / 0.3048 ;
 		
-//		System.out.println(  this.cate1 + " " + this.cate5);
 		
 		
 		if( this.cate1 > this.elevation && cate01 < 0){
@@ -253,10 +183,8 @@ public class Properties {
 		
 		this.BFE 	= this.BFE0;
 		this.fbeta1	= beta0;
-//		Double.parseDouble(line[22] );
 		this.fmu1 	= mu0;
 		this.fxi1 	= xi0;
-//		Double.parseDouble( line[23] );	
 		
         int Azone = this.zone.indexOf('A');
 		int Vzone = this.zone.indexOf('V');
