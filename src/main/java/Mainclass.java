@@ -28,10 +28,7 @@ public static void main(String[] args) throws Exception {
 
 	System.out.println("Input arguments " + args[6]  );
 		
-	
-//	String input  = "MiamiFloodAdaptation/src/main/resources" ;
-//	String output = "MiamiFloodAdaptation/src/main/resources/results_MonteCarlo";
-		
+			
 		
 	String file1 = input;
 	String file2 = output;
@@ -96,11 +93,9 @@ public static void main(String[] args) throws Exception {
 		
 	int outputN = 10;
 	double[][][] ResultInfo = new double[outputN][TotalN][simYrs] ;
-//	String[] tails_str 	= { "_SLR02", "_SLR05", "_SLR12", "_SLR20"}; // "_SLR05", "_SLR12", "_SLR20"
 	/** Change SLR scenario for sensitivity analysis**/
 	String[] tailis_adaptsce  	= 	{ "1", "2", "3", "4"};
 	String[] tailis_slr  		= 	{ "_SLR02.csv", "_SLR05.csv", "_SLR12.csv", "_SLR20.csv" };
-//	double[] slrsces   		=  {0.000003, 0.000033, 0.000103, 0.000183};
 			
 	/** Change SLR scenario for sensitivity analysis**/		
 	for(  int atgb = 0; atgb < tailis_slr.length; atgb++ ) {
@@ -135,9 +130,7 @@ public static void main(String[] args) throws Exception {
 			CsvFileWriter.writeEvacuation(ResultInfo[9], hbidPth9, false);	
 			
 			int countSize = 0;
-	//			ExecutorService executor = Executors.newCachedThreadPool();
 			ExecutorService executor = Executors.newFixedThreadPool(nthread);
-	//			List<Future<double[][][][]>> futures = new ArrayList<>();
 			
 			
 			CopyOnWriteArrayList< Future<double[][][]> > futures2  = new CopyOnWriteArrayList<>();
@@ -159,12 +152,6 @@ public static void main(String[] args) throws Exception {
 				Future<double[][][]> result = executor.submit(taski);     
 				futures2.add(result);
 		        
-	//	        while (!result.isDone()) {
-	//	            System.out.println(
-	//	              String.format(  "future %s is %s ",  threadi, result.isDone() ? "done" : "not done" )
-	//	            );
-	//	            Thread.sleep(300);
-	//	        }
 				countSize = countSize + chunksize;
 			}
 			executor.shutdown();
