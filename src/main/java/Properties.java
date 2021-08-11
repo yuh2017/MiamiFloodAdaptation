@@ -318,22 +318,14 @@ public class Properties {
 					}else{
 						tempD = 0;
 					}
-//					if( inundation2 > 0){
-//						tempC =  0.1037*Math.pow(inundation, 3) - 2.815*Math.pow(inundation, 2)  +  20.898*inundation + 14.957;
-//					}else{
-//						tempC = 0;
-//					}
+
 				}else {
 					if(inundation1 > 0){
 						tempD = -0.1347*Math.pow(inundation1, 3) + 1.1448*Math.pow(inundation1, 2) +  9.1078*inundation1 + 4.4057; //residential
 					}else{
 						tempD = 0;
 					}
-//					if( inundation2 > 0){
-//						tempC =  0.6278*Math.pow(inundation2, 3) - 9.597*Math.pow(inundation2, 2)  +  47.22*inundation2  + 18.886;
-//					}else{
-//						tempC = 0;
-//					}
+
 				}
 			}else {
 				tempD = 100;
@@ -473,22 +465,14 @@ public class Properties {
 					}else{
 						tempD = 0;
 					}
-//					if( inundation2 > 0){
-//						tempC =  0.1037*Math.pow(inundation2, 3) - 2.815*Math.pow(inundation2, 2)  +  20.898*inundation2 + 14.957;
-//					}else{
-//						tempC = 0;
-//					}
+
 				}else {
 					if(inundation1 > 0){
 						tempD = -0.1347*Math.pow(inundation1, 3) + 1.1448*Math.pow(inundation1, 2) +  9.1078*inundation1 + 4.4057; //residential
 					}else{
 						tempD = 0;
 					}
-//					if( inundation2 > 0){
-//						tempC =  0.6278*Math.pow(inundation2, 3) - 9.597*Math.pow(inundation2, 2)  +  47.22*inundation2  + 18.886;
-//					}else{
-//						tempC = 0;
-//					}
+
 				}
 			}else {
 				tempD =  100 ;
@@ -731,21 +715,6 @@ public class Properties {
 		
 		this.ShutterPay = cost/ 22.8 ;
 	}
-	
-	
-//	public double buyInsurance( double currenJV){
-//		double insuranceCost;
-//		if(this.Ptype < 5){
-//			if(this.elePay > 0 | this.eleHeight > 1 | this.cate3 <= 0){
-//				insuranceCost   = Insurer.PremiumCostF( currenJV, this.FLD_ZONE, this.elevation +this.eleHeight, this.cate3 );
-//			}else{
-//				insuranceCost = Insurer.insuranceCostF( currenJV, this.FLD_ZONE , this.elevation, this.cate3);
-//			}
-//		}else{
-//			insuranceCost = Insurer.BusinessInsurance( currenJV, this.FLD_ZONE , this.elevation);
-//		}
-//		return insuranceCost;
-//	}
 	
 	
 	public ArrayList<Integer> getNeighborsList( ){
