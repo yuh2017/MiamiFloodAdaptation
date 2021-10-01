@@ -65,22 +65,6 @@ public class InitClass {
 	}
 	
 	
-	public static double PropertyJustVal( Properties propi, double deltaDEM, int yrs) { 
-        double changeVal = propi.liveArea* (  propi.a1* yrs + propi.a3* yrs + propi.a4 * deltaDEM );
-//        double risk = propi.AdaptFloodRisk + propi.AdaptationCost + propi.insuranceCost - propi.FloodRisk0;
-        double updatedVal  = (propi.CurrentJV + changeVal)  ;
-         // -1*propi.a1*propi.AdaptFloodRisk  - propi.AdaptFloodRisk  - propi.AdaptationCost + propi.insuranceCost
-        return updatedVal ;
-    } 
-	
-	
-	public static double PropertyJustVal2( Properties propi, double deltaDEM, int yrs) { 
-        double changeVal = propi.liveArea* (  propi.a1* yrs + propi.a3* yrs + propi.a4 * deltaDEM );
-        double risk = propi.FloodRisk  - propi.FloodRisk0;
-        double updatedVal  = (propi.CurrentJV + changeVal) - risk ;
-         // -1*propi.a1*propi.AdaptFloodRisk  - propi.AdaptFloodRisk  - propi.AdaptationCost + propi.insuranceCost
-        return updatedVal ;
-    } 
 	
 	public static ArrayList<Agents> HHCensus( ArrayList<Agents> households, String CID ){
 		ArrayList<Agents> censushhs = new ArrayList<Agents>();
@@ -102,65 +86,6 @@ public class InitClass {
 		double discountRate = 0.04;
 		return BidPricei * ( discountRate * Math.pow( 1 + discountRate, 30) / ( Math.pow( 1 + discountRate, 30) - 1 ) ) ;
 	}
-	public static double bid( Properties Housei, double income, int multi ){
-		double bidPrice = 0;	
-		//int randIndex = rand.nextInt(numberOfElements);
-		double NResids, Landval, LiveArea, EffectYrs;
-		if(Housei.LV == 0){
-			Housei.LV = Housei.Justvalue * 0.5;
-		}
-		if(multi == 1){
-			NResids  = 1;
-			Landval  = Housei.LV / Housei.NORESUNTS ;
-			LiveArea = Housei.liveArea / Housei.NORESUNTS ;
-			
-		}else{
-			NResids  = Housei.NORESUNTS;
-			Landval  = Housei.LV ;
-			LiveArea = Housei.liveArea ;
-		}
-		EffectYrs = Housei.EFFYER;
-		
-		if (income < 60000 ) {
-			bidPrice =  -1.067e6  - 2.894e1* NResids + 
-						3.0e2* Math.log( Landval + 0.01) +
-						2.528e3* Math.log(LiveArea + 0.01) -
-						5.607e3* Math.log(EffectYrs + 0.01) +
-						1.183e5* Math.log(income + 0.01 ) ;
-		} else if (income > 60000 && income < 120000) {
-			bidPrice =  -3.315e6  + 1.285e2* NResids +
-			        	1.967e1* Math.log( Landval + 0.01) -
-			        	2.925e2* Math.log(LiveArea + 0.01) - 
-			        	1.361e4* Math.log(EffectYrs + 0.01) +
-			       		3.318e5* Math.log(income + 0.01) ;
-		} else if (income > 120000 && income < 230000) {
-			bidPrice =  -7.223e6  -
-						5.288e1* NResids - 
-			        	1.965e2* Math.log( Landval + 0.01)  -
-			        	6.097e2* Math.log( LiveArea + 0.01) -
-			        	5.05e2* Math.log( EffectYrs + 0.01) +
-			        	6.572e5* Math.log(income + 0.01) ;
-		} else if(income > 230000 && income < 500000 ){
-			bidPrice =  -5.064e7  + 
-					   	5.095e4* NResids -
-		        		2.339e4* Math.log( Landval + 0.01)  -
-		        		1.029e6* Math.log( LiveArea + 0.01) +
-		        		1.099e6* Math.log( EffectYrs + 0.01) +
-		        		4.107e6* Math.log( income + 0.01) ;
-			   }
-		return bidPrice;
-		}
-	
-//	public static ArrayList<String> readCensus(ArrayList<Properties> ResidBidPrice) {
-//		ArrayList<String> entities = new ArrayList<String>();
-//		for(Properties residi : ResidBidPrice){
-//			if( !entities.contains(residi.censusID) ){
-//				entities.add(residi.censusID);
-//			}
-//		}
-//		System.out.println("Finished reading Census! " + entities.size());
-//		return entities;
-//	}
 	
 	
 	
@@ -221,111 +146,13 @@ public class InitClass {
 		return entities;
 	}
 	
-//	public static ArrayList<Agents> readAgent(String csvFile) {
-//		BufferedReader br = null;
-//		String line = "";
-//		String cvsSplitBy = ",";
-//		ArrayList<Agents> households = new ArrayList<Agents>();
-//		try {
-//			br = new BufferedReader(new FileReader(csvFile));
-//			br.readLine();
-//			while ((line = br.readLine()) != null) {
-//	                String[] dataline = line.split(cvsSplitBy);
-//	                Agents householdi = new Agents(dataline) ;
-//	                households.add(householdi);
-//	            }
-//			}catch (FileNotFoundException e){
-//				e.printStackTrace();
-//	        } catch (IOException e) {
-//	            e.printStackTrace();
-//	        } finally {
-//	            if (br != null) {
-//	                try {
-//	                    br.close();
-//	                } catch (IOException e) {
-//	                    e.printStackTrace();
-//	                    }
-//	               }
-//	        }
-//		System.out.println("Finished reading households !");
-//		return households;
-//	}
 	public static void writeData(ArrayList<BidPrice> ResidBidPrice) {
 		CsvFileWriter.writeCsvFile(ResidBidPrice );
 		System.out.println("Finished processing!");
 	}
 	
-	public static double[] windDamageFunc(int ptype, double windspeed, double price){
-		double[] damageProbability = {0.0, 0.0, 0.0, 0.0, 0.0};
-		if(ptype == 1|| ptype == 4 && price < 500000){
-			damageProbability[0]   = 1 / (1 + Math.exp(-0.0448*windspeed + 4.7456));
-			damageProbability[1]   = 1 / (1 + Math.exp(-0.0557*windspeed + 7.177));
-			damageProbability[2]   = 1 / (1 + Math.exp(-0.0602*windspeed + 8.663));
-			damageProbability[3]   = 1 / (1 + Math.exp(-0.0581*windspeed + 7.756));
-		}else if(ptype == 2 ||ptype == 3 ||ptype == 8 ||ptype == 9 && price < 600000){
-			damageProbability[0]        = 1 / (1 + Math.exp(-0.0452*windspeed + 4.8307));
-			damageProbability[1]       = 1 / (1 + Math.exp(-0.0469*windspeed + 6.0155));
-			damageProbability[2]  = 1 / (1 + Math.exp(-0.0351*windspeed + 5.2818));
-			damageProbability[3] = 1 / (1 + Math.exp(-0.0316*windspeed + 5.193));
-		}else{
-			
-			damageProbability[0]   = 0;
-			damageProbability[1]   = 1 / (1 + Math.exp(-0.0313*windspeed + 5.2811));
-			damageProbability[2]   = 1 / (1 + Math.exp(-0.0349*windspeed + 6.2687));
-			damageProbability[3]   = 1 / (1 + Math.exp(-0.0364*windspeed + 7.0583));
-			
-		}
-		return damageProbability;
-	}
 	
-	public static double MeanwindDamageP(int ptype, double windspeed, double price){ // for each windspeed
-		double ExpectProb =0;
-		double[] damageP      = {0.05, 0.15, 0.25, 0.5, 0.75};
-		double[] damageProbability = {0.0, 0.0, 0.0, 0.0, 0.0};
-		damageProbability = windDamageFunc( ptype, windspeed, price);
-		if(windspeed < 75){
-			ExpectProb =  0 ;
-		}else if(windspeed < 120){
-			ExpectProb =  damageP[0] * damageProbability[0] ;
-		}else if(windspeed > 120 && windspeed < 160){
-			ExpectProb =  damageP[1] * damageProbability[1] ;
-		}else if(windspeed > 160 && windspeed < 220){
-			ExpectProb =  damageP[2] * damageProbability[2] ;
-		}else{
-			ExpectProb =  damageP[3] * damageProbability[3] ;
-		}
-		
-		if(ExpectProb < 0){
-			System.out.println("Error Wind Loss probability is " + +windspeed);	
-		}
-		return ExpectProb;
-	}
 	
-	public static double WindReductFract( double windspeed){
-		double[] damageP = {0.05, 0.1, 0.15, 0.25, 0.5};
-		double[] damageFract = {0.0, 0.0, 0.0, 0.0, 0.0};
-
-		damageFract[0]   = 0;
-		damageFract[1]   = 0;
-		damageFract[2]   = 1 / (1 + Math.exp(-0.0349*windspeed + 6.2687));
-		damageFract[3]   = 1 / (1 + Math.exp(-0.0364*windspeed + 7.0583));
-		
-		double ExpectDamage;
-		if(windspeed < 120){
-			ExpectDamage =  damageP[0]*damageFract[0] ;
-		}else if(windspeed > 120 && windspeed < 160){
-			ExpectDamage =  damageP[1]*damageFract[1] ;
-			
-		}else if(windspeed > 160 && windspeed < 240){
-			
-			ExpectDamage =  damageP[2]*damageFract[2] ;
-		}else{
-			ExpectDamage =  damageP[3]*damageFract[3] ;
-		}
-		
-		return ExpectDamage;
-		
-	}
 	
 	
 	public static double surgeHeightF(double returnP, double fxmin, double xi0, double beta0){
@@ -333,51 +160,6 @@ public class InitClass {
 		surge2 = (fxmin + ( (Math.pow( returnP, -xi0) - 1)*beta0 / xi0 )  )/  0.3048;
 		if(surge2 < 0){surge2 = 0.0;}
 		return surge2;
-	}
-	
-	public static double WindSpeedF(double returnP){
-		double WindSpeed;
-		WindSpeed = 106.117481 + ( (Math.pow( returnP, -1 * 1.017104) - 1)*1.393671 / 1.017104 ) ;
-		WindSpeed = WindSpeed / 1.609;
-		if(WindSpeed > 160){
-			WindSpeed = 160;
-		}
-		
-//		if(WindSpeed < 75){
-//			WindSpeed = 0;
-//		}
-		return WindSpeed;
-	}
-	
-	
-	public static double[] WindRiskF( int Ptype, int Nresid, double NearW, double[] winds, double currentValue, double shutterPay) {
-//		double k =  0.1295860, 3.3788187, 0.2727094;
-		double  TotalRisk[] = {0, 0};
-		double loss;
-//		double[] probs     = {0.1, 0.05, 0.02, 0.01}; // 0.10, 0.05, 0.02, 0.01, 0.005
-		double[] AdaptWindDamage = {0.0, 0.0, 0.0, 0.0, 0.0};
-		if(shutterPay > 0){
-			AdaptWindDamage[0] = WindReductFract(  winds[1] ) ;
-			AdaptWindDamage[1] = WindReductFract(  winds[2] ) ;
-			AdaptWindDamage[2] = WindReductFract(  winds[3] ) ;
-			AdaptWindDamage[3] = WindReductFract(  winds[4] ) ;
-		}else{
-			AdaptWindDamage[0] = MeanwindDamageP( Ptype, winds[1], currentValue);
-			AdaptWindDamage[1] = MeanwindDamageP( Ptype, winds[2], currentValue);
-			AdaptWindDamage[2] = MeanwindDamageP( Ptype, winds[3], currentValue);
-			AdaptWindDamage[3] = MeanwindDamageP( Ptype, winds[4], currentValue);
-}
-		
-		double damageProb = probs[4]*AdaptWindDamage[3]  ;
-		
-		loss = currentValue * damageProb;
-		TotalRisk[1] = loss;
-		TotalRisk[0] = currentValue * ( AdaptWindDamage[0] *probs[1] + AdaptWindDamage[1] *probs[2]  + 
-				AdaptWindDamage[2] *probs[3] + AdaptWindDamage[3] *probs[4]   ) /4 ;
-		
-//		System.out.println("WindDamage p " + TotalRisk[0]);
-		
-		return TotalRisk;
 	}
 	
 	public static double FloodRiskPay(Properties residi, double DEM, double[] surgeHeight, double currentprice, double mu){
@@ -952,25 +734,6 @@ public class InitClass {
 											housei.FloodMeasure, housei.adaptH , goveAdaptH);
 			}
 		}	
-		
-		
-
-		
-//		for( int k = 0; k < years; k= k + deltaT ){
-//			int slotk = (int) k / deltaT;
-//			AnnualCosts[0][slotk] = k ;	
-//			for( int k2 = 0; k2 < N; k2++ ){
-//				if( adaptYM[k2][0] == k && adaptYM[k2][1] > 0){
-//					AnnualCosts[1][slotk] = AnnualCosts[1][slotk] + adaptYM[k2][2] ;
-//					AnnualCosts[2][slotk] = AnnualCosts[2][slotk] + 1.0 ;
-//				}
-//			}
-//		}
-//		for( int k = deltaT; k < years; k= k + deltaT ){
-//			int slotk = (int) k / deltaT;
-//			AnnualCosts[1][slotk] = AnnualCosts[1][slotk] + AnnualCosts[1][slotk - 1] ;
-//			AnnualCosts[2][slotk] = AnnualCosts[2][slotk] + AnnualCosts[2][slotk - 1] ;
-//		}
 	}
 
 	public static void AdaptDecision3( ArrayList<Properties> ResidBidPrice, double[] parayi, Government gov1 ) throws IOException{
@@ -1181,22 +944,6 @@ public class InitClass {
 											housei.FloodMeasure, housei.adaptH , goveAdaptH);
 			}
 		}
-			
-//		for( int k = 0; k < years; k= k + deltaT ){
-//			int slotk = (int) k / deltaT;
-//			AnnualCosts[0][slotk] = k ;	
-//			for( int k2 = 0; k2 < N; k2++ ){
-//				if( adaptYM[k2][0] == k && adaptYM[k2][1] > 0){
-//					AnnualCosts[1][slotk] = AnnualCosts[1][slotk] + adaptYM[k2][2] ;
-//					AnnualCosts[2][slotk] = AnnualCosts[2][slotk] + 1.0 ;
-//				}
-//			}
-//		}
-//		for( int k = deltaT; k < years; k= k + deltaT ){
-//			int slotk = (int) k / deltaT;
-//			AnnualCosts[1][slotk] = AnnualCosts[1][slotk] + AnnualCosts[1][slotk - 1] ;
-//			AnnualCosts[2][slotk] = AnnualCosts[2][slotk] + AnnualCosts[2][slotk - 1] ;
-//		}
 	}
 	
 	public static void AdaptDecision4( ArrayList<Properties> ResidBidPrice, double[] parayi, Government gov1 ) throws IOException{
@@ -1383,21 +1130,6 @@ public class InitClass {
 											housei.FloodMeasure, housei.adaptH, goveAdaptH );
 			}
 		}	
-//		for( int k = 0; k < years; k= k + deltaT ){
-//			int slotk = (int) k / deltaT;
-//			AnnualCosts[0][slotk] = k ;	
-//			for( int k2 = 0; k2 < N; k2++ ){
-//				if( adaptYM[k2][0] == k && adaptYM[k2][1] > 0){
-//					AnnualCosts[1][slotk] = AnnualCosts[1][slotk] + adaptYM[k2][2] ;
-//					AnnualCosts[2][slotk] = AnnualCosts[2][slotk] + 1.0 ;
-//				}
-//			}
-//		}
-//		for( int k = deltaT; k < years; k= k + deltaT ){
-//			int slotk = (int) k / deltaT;
-//			AnnualCosts[1][slotk] = AnnualCosts[1][slotk] + AnnualCosts[1][slotk - 1] ;
-//			AnnualCosts[2][slotk] = AnnualCosts[2][slotk] + AnnualCosts[2][slotk - 1] ;
-//		}
 	}
 	
 	public static Map<Integer, Properties> PropertyDict(ArrayList<Properties> properties){
@@ -1455,16 +1187,6 @@ public class InitClass {
 		int deltaT = (int) inputs_rp[7];
 		
 		double[][][] ResultInfo  	= new double[10][Nloops][Totyrs ] ;
-		
-//		if( scenarioi == 1) {
-//			goveAdaptH = 0;
-//		}else if( scenarioi == 2) {
-//			goveAdaptH = 0;
-//		}else if( scenarioi == 3) {
-//			goveAdaptH = 4;
-//		}else {
-//			goveAdaptH = 10;
-//		}
 		double[] parayi = { Totyrs, DiscountRate, para_b, deltaT, muyi, xiyi, betayi  } ;
 		
 		if( ifSensitivity >= 0 ) {
@@ -1494,19 +1216,6 @@ public class InitClass {
 //				parayi[3] = deltaT;
 			}
 			
-//			double[] parayi2 = { 100, DiscountRate, para_b, deltaT, muyi, xiyi, betayi  } ;
-//			double[] parayi2 = { Totyrs, DiscountRate, para_b, deltaT, muyi, xiyi, betayi  } ;
-//			if( scenarioi == 2  ) {
-//				AdaptDecision2(Allhouseholds, parayi2, gov1) ;
-//			}else if( scenarioi == 3 ) {
-//				AdaptDecision3(Allhouseholds, parayi2, gov1) ;
-//			}else if( scenarioi == 4 ) {
-//				AdaptDecision4(Allhouseholds, parayi2, gov1) ;
-//			}else {
-//				AdaptDecision( Allhouseholds, parayi2, gov1) ;
-//			}
-//			
-//			goveAdaptH = gov1.goveAdaptH;
 			
 			CreateHousehold(Allhouseholds, paras2, 1);
 			double totalrisk0 		 	= 0.0 ;
