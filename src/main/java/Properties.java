@@ -699,24 +699,6 @@ public class Properties {
 	}
 	
 	
-	public void houseStrength( ){
-		double cost =0;
-		double structurePrice = 0;
-		if(this.bidPrice > this.LV) {
-			structurePrice = this.bidPrice - this.LV;
-		}else {
-			structurePrice = this.bidPrice;
-		}
-		if(this.liveArea < 2850 ){
-			cost = this.liveArea * 8;
-		}else {
-			cost = structurePrice / 1200 * 5 ;
-		}
-		
-		this.ShutterPay = cost/ 22.8 ;
-	}
-	
-	
 	public ArrayList<Integer> getNeighborsList( ){
 		ArrayList<Integer> NeighborsID = new ArrayList<Integer>();
 		Iterator<Properties> iter = neighborsList.iterator();
