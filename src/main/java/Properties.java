@@ -71,12 +71,12 @@ public class Properties {
 		//System.out.println("create empty house property");
 		
 		
-		this.xi0 			= 0.0688 ; 
-		this.xise0 			= 0.07 ;
-		this.mu0 			= 0.9   ; 
-		this.muse0 			= 0.146    ;
+		this.xi0 			= 0.140 ; 
+		this.xise0 			= 0.181 ;
+		this.mu0 			= 0.9672   ; 
+		this.muse0 			= 0.176    ;
 		this.beta0 			= 0.600 ; 
-		this.betase0 		= 0.125 ;
+		this.betase0 			= 0.125 ;
 
 	}
 	
@@ -104,7 +104,7 @@ public class Properties {
 		this.mu0 			= 0.9672   ; 
 		this.muse0 			= 0.176    ;
 		this.beta0 			= 0.600 ; 
-		this.betase0 		= 0.125 ;
+		this.betase0 			= 0.125 ;
 		
 		
 		
@@ -126,24 +126,18 @@ public class Properties {
 		if( this.cate1 > this.elevation && cate01 < 0){
 			this.elevation   = this.elevation + this.cate1 - this.elevation ;
 		}
-		
 		if( this.cate2 > this.elevation && cate02 < 0){
 			this.elevation   = this.elevation + this.cate2 - this.elevation ;
 		}
-		
 		if( this.cate3 > this.elevation && cate03 < 0){
 			this.elevation   = this.elevation + this.cate3 - this.elevation ;
 		}
-		
-		
 		if( this.cate4 > this.elevation && cate04 < 0){
 			this.elevation   = this.elevation + this.cate4 - this.elevation ;
 		}
-
 		if( this.cate5 > this.elevation && cate05 < 0){
 			this.elevation   = this.elevation + this.cate5 - this.elevation ;
 		}
-		
 		this.initialHeight 	= mu0 ;
 //		this.elevation0  	= this.elevation;
 		this.BFE0  			= this.cate4 ;
@@ -159,21 +153,9 @@ public class Properties {
 		this.latitude  = Double.parseDouble( line[20] );
 		this.longitude = Double.parseDouble( line[21] );	
 		double FAR0 = 0.3;
-		if(  this.NORESUNTS == 1 && (this.Ptype == 1 || this.Ptype == 4)){
-			this.liveArea = this.Area ;
-		}else if(  this.Ptype <= 4 && this.NORESUNTS > 1 ){
-			this.liveArea = ( Math.random() *0.1+ FAR0 )* this.Area / Math.sqrt(this.NORESUNTS);
-		}else if( this.Ptype > 4 && this.NORESUNTS > 1 ){
-			this.liveArea = (  Math.random() *0.05+ FAR0 )*this.Area / Math.sqrt(this.NORESUNTS);
-		}else if( this.Ptype != 1 && this.Ptype != 4 ){
-			this.liveArea = ( FAR0 )*this.Area ;
-			this.Justvalue = this.Justvalue0 ;
-			if( (this.Justvalue - this.LV) / 100 < this.liveArea){
-				this.liveArea = this.Justvalue0 / 100;
-			}
-		}else{
-			this.liveArea = this.Area ;
-		}
+		
+		this.liveArea = this.Area ;
+		
 		
 		if( this.Ptype == 1 ) {
 			this.payratio = 1.760e-02 - 4.822e-03 + 2.685e-06*this.Area + -5.521e-08 * this.bidIncome ;
@@ -186,7 +168,7 @@ public class Properties {
 		this.fmu1 	= mu0;
 		this.fxi1 	= xi0;
 		
-        int Azone = this.zone.indexOf('A');
+        	int Azone = this.zone.indexOf('A');
 		int Vzone = this.zone.indexOf('V');
 		
 		if( Azone >= 0 || Vzone >= 0) {
@@ -307,7 +289,6 @@ public class Properties {
 		double tempD = 0, tempC = 0;
 		double[] damage = {0, 0};
 		
-		
 		inundation1 = inundation;
 		
 		if( inundation1 > 0 ) {
@@ -325,13 +306,11 @@ public class Properties {
 					}else{
 						tempD = 0;
 					}
-
 				}
 			}else {
 				tempD = 100;
 				tempC = 100;
 			}
-			
 			
 			if(  adapti > 1 ){
 				if( inundation1 < adaptH ){  
