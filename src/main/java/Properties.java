@@ -69,14 +69,6 @@ public class Properties {
 	
 	public Properties() {
 		//System.out.println("create empty house property");
-		
-		
-		this.xi0 			= 0.140 ; 
-		this.xise0 			= 0.181 ;
-		this.mu0 			= 0.9672   ; 
-		this.muse0 			= 0.176    ;
-		this.beta0 			= 0.600 ; 
-		this.betase0 			= 0.125 ;
 
 	}
 	
